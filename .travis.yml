@@ -1,0 +1,14 @@
+language: python
+python:
+- '3.8'
+install:
+- pip install -r requirements.txt
+script:
+- pytest
+deploy:
+  provider: heroku
+  api_key:
+    secure: SAdJOpBpegDRxO+LnylwRnePIu0uTVPsNp24nf3nGjl7WgzWGxYp0EkvHQTKhbNFlZdP2YRC49WsnMBCo/LW4Ipyag5M2GPrYv6E+Vu1gJ9nrxB2LJ8a+FVZOf6Bl9QtGuOFKE8ZcKY9sAFdiDIMcjpLdzPJpzCXie3lk4CbKxCfOhrOVkY5zhU/ltsAsOl5pploim9y6ofmzkPKi0gz+6dtS5JjY5I1SFhKfWQhW9WaMlQlnx6GookVpE32GtHsvos5+LVRqtPNl62ICWzEcVt3BKWBYV3nMNwtp/0YhSyPaYP5u3vG+7sIo3Cp5QL3RqZiUcQxsmdmDUKc1BjcIMicQZAvFmhxmKB+IsRvZQmYJT/ct1fCRnq5iOUfmAv4jkngO0liRgVtEb3NoMDDiVvFy9MDRfYsXdobIP/ISdw83GcMCFlmR4nhDMkekRkK3h5uPgQSBHho98tQIEqp1q6cSvLT8AOqJy9p9Mac4F7Z890dV6WvgVsp+uoFFsaBr3nT/BLikF03M5nKmZl8bxhIgnogB+n3L0WvKD7D4jTcTWSbg0WqY+6fdbLgq4XeonN/qN4hk7tcMX5jj9mP9WlbM/rQYN9VPL9MrUvKZ1emKWUkjVCVtereGvEd0FpulZyJqeV9ArmBZxtpSipd1NqBts9sr3vPOxezmQeayhM=
+  app: backend-notary-now
+  on:
+    repo: notary-now/backend_notary_now
