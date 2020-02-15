@@ -1,1 +1,1 @@
-web: gunicorn myproject.wsgi
+web: gunicorn backend_notary_now.wsgi
