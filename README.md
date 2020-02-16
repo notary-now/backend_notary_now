@@ -11,6 +11,8 @@ NotaryNow connects notaries with people who need notary service.
 1. Clone down repo using `git clone git@github.com:notary-now/backend_notary_now.git`
 1. Change into project directory
 1. Install Required Python Packages
+1. Setup Database
+1. Add Environment Variable
 
 #### Required Python Packages
 - dotenv `pip3 install python-dotenv`
