@@ -12,7 +12,7 @@ NotaryNow connects notaries with people who need notary service.
 1. Change into project directory
 1. Install Required Python Packages
 1. Setup Database
-1. Add Environment Variable
+1. Add Environment Variables
 
 #### Required Python Packages
 - dotenv `pip3 install python-dotenv`
