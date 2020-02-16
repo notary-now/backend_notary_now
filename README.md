@@ -82,10 +82,7 @@ All tests can be run using the command `pytest`
 `GET` to `/notaries/:user_id/locations`
 ###### Add a Location
 `POST` to `/notaries/:user_id/locations`
-###### EDIT a Location
-`PUT` to `/notaries/:user_id/locations/:id`
-
-###### Edit Locations
-`PUT` to `/notaries/:user_id/languages/:id`
+###### Edit a Location
+`PUT` to `/notaries/:user_id/locations/:id``
 ###### Remove a Location
 `DELETE to `/notaries/:user_id/languages/:id`
