@@ -42,11 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'notary_now_api',
-    'account',
     'rest_framework'
 ]
 
-AUTH_USER_MODEL = 'account.Account'
+AUTH_USER_MODEL = 'notary_now_api.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

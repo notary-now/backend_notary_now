@@ -1,9 +1,10 @@
 from rest_framework import viewsets
 
-from .serializers import AccountSerializer
-from .models import Account
+from .serializers import UserSerializer
+from .models import User
 
 
-class AccountViewSet(viewsets.ModelViewSet):
-    queryset = Account.objects.all().order_by('id')
-    serializer_class = AccountSerializer
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('id')
+    # print(queryset)
+    serializer_class = UserSerializer

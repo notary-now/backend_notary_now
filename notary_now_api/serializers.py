@@ -1,14 +1,11 @@
 from rest_framework import serializers
-# from ..backend_notary_now.account.models import Account
-import sys
-sys.path.append('..')
-# import file
-from account.models import Account
+from .models import User
 
-class AccountSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Account
-        fields = ('first_name',
+        model = User
+        fields = ('id',
+                  'first_name',
                   'last_name',
                   'is_notary',
                   'profile_photo',
