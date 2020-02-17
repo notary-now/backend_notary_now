@@ -50,6 +50,7 @@ class Account(AbstractBaseUser):
     email = models.EmailField(unique = True)
     is_notary = models.BooleanField(default = False)
     updated_at = models.DateTimeField(auto_now = True)
+    profile_photo = models.TextField()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
