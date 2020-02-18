@@ -39,7 +39,6 @@ class MyUserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
-    username = models.CharField(max_length = 30, unique = True)
     date_joined = models.DateTimeField(verbose_name = 'date joined', auto_now_add = True)
     last_login = models.DateTimeField(verbose_name = 'last login', auto_now = True)
     is_admin = models.BooleanField(default = False)
@@ -84,12 +83,15 @@ class Appointment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class Language(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='languages', on_delete=models.CASCADE)
     primary_language = models.CharField(max_length=1000)
     secondary_language = models.CharField(max_length=1000)
     tertiary_language = models.CharField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{%s, %s, %s}" %(f'"first_lang": "{self.primary_language}"', f'"second_lang": "{self.secondary_language}"', f'"third_lang": "{self.tertiary_language}"')
 
 class Notary(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

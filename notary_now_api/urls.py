@@ -1,10 +1,7 @@
-from django.urls import path, include
-from rest_framework import routers
-from . import views
-router = routers.DefaultRouter()
-router.register(r'user', views.UserViewSet)
+from django.urls import path
+from .views import notary_users_list, notary_detail
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path("notaries/", notary_users_list, name="notary_users_list"),
+    path("notaries/<int:pk>/", notary_detail, name="notary_user_detail")
 ]

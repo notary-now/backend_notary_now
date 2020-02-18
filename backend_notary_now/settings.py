@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'notary_now_api',
-    'rest_framework',
     'corsheaders'
 ]
 
