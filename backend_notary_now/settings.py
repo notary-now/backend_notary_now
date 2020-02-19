@@ -146,7 +146,3 @@ STATICFILES_DIRS = (
 )
 
 django_heroku.settings(locals())
-
-
-
-export SECRET_KEY='test_key'
