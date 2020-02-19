@@ -3,8 +3,14 @@ python:
 - '3.8'
 install:
 - pip install -r requirements.txt
+services:
+- postgresql
+before_script:
+- psql -c 'create database travis_ci_test;' -U postgres
+env:
+- SECRET=test-key DBNAME=travis_ci_test
 script:
-- pytest
+- python manage.py test notary_now_api
 deploy:
   provider: heroku
   api_key:
