@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 # Create your models here.
@@ -39,15 +39,21 @@ class MyUserManager(BaseUserManager):
 
         return user
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser):
+    date_joined = models.DateTimeField(verbose_name = 'date joined', auto_now_add = True)
+    last_login = models.DateTimeField(verbose_name = 'last login', auto_now = True)
+    is_admin = models.BooleanField(default = False)
+    is_active = models.BooleanField(default = True)
+    is_staff = models.BooleanField(default = False)
+    is_superuser = models.BooleanField(default = False)
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     email = models.EmailField(unique = True)
-    zip_code = models.PositiveIntegerField(default=80111)
+    zip_code = models.PositiveIntegerField(default=80222)
     profile_photo = models.TextField(default = 'https://www.netclipart.com/pp/m/23-234697_blue-onesie-clipart-stick-figure-happy-face.png')
+    is_notary = models.BooleanField(default = False)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
@@ -71,12 +77,12 @@ class Appointment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class Notary(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notary_user')
     radius = models.PositiveIntegerField()
     active = models.BooleanField(default=True)
     verified = models.BooleanField(default=False)
     state_notary_number = models.CharField(max_length=12)
-    commission_date = models.DateTimeField()
-    expiration_date = models.DateTimeField()
+    commission_date = models.DateField()
+    expiration_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
