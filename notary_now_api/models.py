@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+
 # Create your models here.
 class MyUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password = None):
@@ -48,10 +49,11 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     email = models.EmailField(unique = True)
-    is_notary = models.BooleanField(default = False)
-    updated_at = models.DateTimeField(auto_now = True)
+    zip_code = models.PositiveIntegerField(default=80222)
     profile_photo = models.TextField(default = 'https://www.netclipart.com/pp/m/23-234697_blue-onesie-clipart-stick-figure-happy-face.png')
-
+    is_notary = models.BooleanField(default = False)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
@@ -66,39 +68,21 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-# Create your models here.
-class Location(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    zip_code = models.PositiveIntegerField()
-    radius = models.PositiveIntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
 class Appointment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='self_user')
+    notary = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='self_user')
     apointee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='referenced_user')
     time = models.DateTimeField()
     location = models.CharField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class Language(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='languages', on_delete=models.CASCADE)
-    primary_language = models.CharField(max_length=1000)
-    secondary_language = models.CharField(max_length=1000)
-    tertiary_language = models.CharField(max_length=1000)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return "{%s, %s, %s}" %(f'"first_lang": "{self.primary_language}"', f'"second_lang": "{self.secondary_language}"', f'"third_lang": "{self.tertiary_language}"')
-
 class Notary(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    notary_id = models.CharField(max_length=12)
-    commission_date = models.DateTimeField()
-    expiration_date = models.DateTimeField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notary_user')
+    radius = models.PositiveIntegerField()
     active = models.BooleanField(default=True)
     verified = models.BooleanField(default=False)
+    state_notary_number = models.CharField(max_length=12)
+    commission_date = models.DateField()
+    expiration_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
