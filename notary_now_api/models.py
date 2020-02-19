@@ -79,7 +79,7 @@ class Notary(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notary_user')
     radius = models.PositiveIntegerField()
     active = models.BooleanField(default=True)
-    bio = models.TextField(max_length=5000)
+    bio = models.TextField(default="", max_length=5000)
     verified = models.BooleanField(default=False)
     state_notary_number = models.CharField(max_length=12)
     commission_date = models.DateField()
