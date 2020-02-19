@@ -28,7 +28,10 @@ def notary_verify(request, pk):
     notary = Notary.objects.filter(user_id=pk)
     if notary:
         notary_id = notary.state_notary_number
-        r = requests.get(f'https://data.colorado.gov/resource/k4uv-yvnk.json?notaryid={notary_id}').json()
+        commission_date = notary.commission_date
+        expiration_date = notary.expiration_date
+
+        r = requests.get(f'https://data.colorado.gov/resource/k4uv-yvnk.json?notaryid={notary_id}&commissionstart={commission_date}&commissionexpire={expiration_date}').json()
         if r:
             notary.update(verified='True')
             return JsonResponse({'success': 'Verified'}, status=200)
