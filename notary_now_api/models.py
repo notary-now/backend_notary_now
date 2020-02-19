@@ -51,7 +51,6 @@ class User(AbstractBaseUser):
     email = models.EmailField(unique = True)
     zip_code = models.PositiveIntegerField(default=80222)
     profile_photo = models.TextField(default = 'https://www.netclipart.com/pp/m/23-234697_blue-onesie-clipart-stick-figure-happy-face.png')
-    is_notary = models.BooleanField(default = False)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     USERNAME_FIELD = 'email'
@@ -80,6 +79,7 @@ class Notary(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notary_user')
     radius = models.PositiveIntegerField()
     active = models.BooleanField(default=True)
+    bio = models.TextField(max_length=5000)
     verified = models.BooleanField(default=False)
     state_notary_number = models.CharField(max_length=12)
     commission_date = models.DateField()
