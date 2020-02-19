@@ -1,26 +1,52 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import User, Notary
 
 def notary_users_list(request):
-    users = User.objects.filter(is_notary='True')
+    notaries = Notary.objects.select_related('user')
 
-    data = {"results": list(users.values("id", "first_name", "last_name", "profile_photo", "zip_code"))}
-    
-    return JsonResponse(data)
+    notary_data = []
+
+    for notary in notaries:
+        notary_data.append({
+            "id": notary.user.id,
+            "first_name": notary.user.first_name,
+            "last_name": notary.user.last_name,
+            "email": notary.user.email,
+            "profile_photo": notary.user.profile_photo,
+            "zip_code": notary.user.zip_code,
+            "notary_values": {
+                "commission_date": notary.commission_date,
+                "expiration_date": notary.expiration_date,
+                "verified": notary.verified,
+                "active": notary.active,
+                "radius": notary.radius,
+                "bio": notary.bio
+            }
+        })
+
+    return JsonResponse(notary_data, safe=False)
 
 def notary_detail(request, pk):
-    user = get_object_or_404(User, pk=pk)
-
-    notary_information = Notary.objects.filter(user_id=user.id)
-
-    data = {"results": {
-        "id": user.id,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "email": user.email,
-        "profile_photo": user.profile_photo,
-        "zip_code": user.zip_code,
-        "notary_values": list(notary_information.values("commission_date", "expiration_date", "verified", "active", "radius"))
-    }}
-    return JsonResponse(data)
+    notary = Notary.objects.filter(user_id=pk)
+    if notary:
+        notary = notary.select_related('user')[0]
+        data = {
+            "id": notary.user.id,
+            "first_name": notary.user.first_name,
+            "last_name": notary.user.last_name,
+            "email": notary.user.email,
+            "profile_photo": notary.user.profile_photo,
+            "zip_code": notary.user.zip_code,
+            "notary_values": {
+                "commission_date": notary.commission_date,
+                "expiration_date": notary.expiration_date,
+                "verified": notary.verified,
+                "active": notary.active,
+                "radius": notary.radius,
+                "bio": notary.bio
+            }
+        }
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'error': 'Notary not Found'}, status=404)
