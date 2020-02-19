@@ -1,9 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Location, Language, Notary, Appointment, User
-admin.site.register(Location)
-admin.site.register(Language)
+from .models import Notary, Appointment, User
 admin.site.register(Notary)
 admin.site.register(Appointment)
 admin.site.register(User)

@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from .models import User, Language
+from .models import User, Notary
 
 def notary_users_list(request):
-    users = User.objects.all().filter(is_notary='True')
-    data = {"results": list(users.values("id", "first_name", "last_name", "profile_photo", "is_notary"))}
+    users = User.objects.select_related('notary')
+
+    data = {"results": list(users.values("id", "first_name", "last_name", "profile_photo"))}
     return JsonResponse(data)
 
 def notary_detail(request, pk):
