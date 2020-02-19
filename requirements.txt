@@ -1,10 +1,14 @@
 asgiref==3.2.3
 attrs==19.3.0
+certifi==2019.11.28
+chardet==3.0.4
 dj-database-url==0.5.0
 Django==3.0.3
 django-cors-headers==3.2.1
 django-heroku==0.3.1
 gunicorn==20.0.4
+idna==2.9
+linecache2==1.0.0
 more-itertools==8.2.0
 packaging==20.1
 pluggy==0.13.1
@@ -14,7 +18,11 @@ pyparsing==2.4.6
 pytest==5.3.5
 python-dotenv==0.11.0
 pytz==2019.3
+requests==2.23.0
 six==1.14.0
 sqlparse==0.3.0
+traceback2==1.4.0
+unittest2==1.1.0
+urllib3==1.25.8
 wcwidth==0.1.8
 whitenoise==5.0.1
