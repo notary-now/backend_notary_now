@@ -42,28 +42,32 @@ def notary_verify(request, pk):
         return JsonResponse({'error': 'Notary not Found'}, status=404)
 
 @csrf_exempt
-def make_appointment(request, pk):
 def appointments(request, pk):
     notary = Notary.objects.filter(user_id=pk)[0]
     if notary:
-        appointment_info = json.loads(request.body)
-        appointment = Appointment.objects.filter(
-            notary_id=pk,
-            appointee_id=appointment_info['appointee_id'],
-            time=appointment_info['time'],
-            date=appointment_info['date'],
-            location=appointment_info['location'],
-        )
-        if not appointment:
-            Appointment.objects.create(
+        if request.method == 'GET':
+            appointments = Appointment.objects.filter(notary_id=notary.id)
+
+            return JsonResponse(list(appointments.values('notary_id', 'appointee_id', 'date', 'time', 'location')), safe=False)
+        elif request.method == 'POST':
+            appointment_info = json.loads(request.body)
+            appointment = Appointment.objects.filter(
                 notary_id=pk,
                 appointee_id=appointment_info['appointee_id'],
                 time=appointment_info['time'],
                 date=appointment_info['date'],
                 location=appointment_info['location'],
             )
-            return JsonResponse({'success': 'Appointment Created'}, status=201)
-        else:
-            return JsonResponse({'error': 'Not Unique'}, status=400)
+            if not appointment:
+                Appointment.objects.create(
+                    notary_id=pk,
+                    appointee_id=appointment_info['appointee_id'],
+                    time=appointment_info['time'],
+                    date=appointment_info['date'],
+                    location=appointment_info['location'],
+                )
+                return JsonResponse({'success': 'Appointment Created'}, status=201)
+            else:
+                return JsonResponse({'error': 'Not Unique'}, status=400)
     else:
         return JsonResponse({'error': 'Notary not Found'}, status=404)
