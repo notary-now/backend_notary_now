@@ -48,7 +48,7 @@ def make_appointment(request, pk):
         appointment_info = json.loads(request.body)
         appointment = Appointment.objects.filter(
             notary_id=pk,
-            apointee_id=appointment_info['apointee_id'],
+            appointee_id=appointment_info['appointee_id'],
             time=appointment_info['time'],
             date=appointment_info['date'],
             location=appointment_info['location'],
@@ -56,7 +56,7 @@ def make_appointment(request, pk):
         if not appointment:
             Appointment.objects.create(
                 notary_id=pk,
-                apointee_id=appointment_info['apointee_id'],
+                appointee_id=appointment_info['appointee_id'],
                 time=appointment_info['time'],
                 date=appointment_info['date'],
                 location=appointment_info['location'],
