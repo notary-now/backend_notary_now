@@ -41,12 +41,81 @@ DBPORT=<DBPORT>
 
 ### Testing
 
-Testing is done with pytest.
+Testing is done with `test`.
 
 #### Running Tests
 
-All tests can be run using the command `pytest`
+All tests can be run using the command `python manage.py test notary_now_api`
 
 ### Endpoints / How to Use
 
 #### Notary Users
+
+###### Get List Of All Notaries
+`GET` to `/api/v1/notaries`
+
+Example Response:
+```
+Status: 200
+
+[
+  {
+    "id": 1,
+    "first_name": "Nancy",
+    "last_name": "Notarelli",
+    "email": "notary@notarynow.com",
+    "profile_photo": "https://ca.slack-edge.com/T029P2S9M-UKFR53NRH-ce9206fa99d8-512",
+    "zip_code": 80222,
+    "notary_values": {
+      "commission_date": "2020-02-19",
+      "expiration_date": "2022-02-19",
+      "verified": true,
+      "active": true,
+      "radius": 15,
+      "bio": ""
+    }
+  },
+  {
+    "id": 2,
+    "first_name": "Chester",
+    "last_name": "Doodle",
+    "email": "chester@chester.com",
+    "profile_photo": "https://ca.slack-edge.com/T029P2S9M-UKFA99FBQ-de342b31c1f0-512",
+    "zip_code": 90210,
+    "notary_values": {
+      "commission_date": "2020-02-19",
+      "expiration_date": "2022-02-19",
+      "verified": false,
+      "active": true,
+      "radius": 10,
+      "bio": "My name is David and I have been a notary for one year now. I love helping people and using my notary skills. I hope to work with you soon!"
+    }
+  }
+]
+```
+
+##### Notary Profile
+###### Get Notary Profile by Id
+`GET` to `/api/v1/notaries/:id`
+
+Example response:
+```
+Status: 200
+
+{
+  "id": 1,
+  "first_name": "Tommy",
+  "last_name": "Tank",
+  "email": "notary@notarynow.com",
+  "profile_photo": "https://ca.slack-edge.com/T029P2S9M-UKFR53NRH-ce9206fa99d8-512",
+  "zip_code": 80222,
+  "notary_values": {
+    "commission_date": "2020-02-19",
+    "expiration_date": "2022-02-19",
+    "verified": true,
+    "active": true,
+    "radius": 15,
+    "bio": ""
+  }
+}
+```
