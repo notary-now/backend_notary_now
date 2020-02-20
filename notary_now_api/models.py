@@ -70,10 +70,16 @@ class User(AbstractBaseUser):
 class Appointment(models.Model):
     notary = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='self_user')
     apointee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='referenced_user')
-    time = models.DateTimeField()
+    date = models.DateField()
+    time = models.TimeField()
     location = models.CharField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['date', 'time', 'notary_id'], name='unique_notary_appointment'),
+            models.UniqueConstraint(fields=['date', 'time', 'apointee_id'], name='unique_user_appointment')
+        ]
 
 class Notary(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notary_user')
