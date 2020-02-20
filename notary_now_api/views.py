@@ -43,6 +43,7 @@ def notary_verify(request, pk):
 
 @csrf_exempt
 def make_appointment(request, pk):
+def appointments(request, pk):
     notary = Notary.objects.filter(user_id=pk)[0]
     if notary:
         appointment_info = json.loads(request.body)
