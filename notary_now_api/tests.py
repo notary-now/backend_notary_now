@@ -48,16 +48,17 @@ class OneNotaryTest(TestCase):
         )
 
     def test_notaries_endpoint(self):
-        request = self.factory.get('/api/v1/notaries/1')
-        response = notary_users_list(request)
+        request = self.factory.get(f'/api/v1/notaries/{self.user.id}')
+        response = notary_detail(request, self.user.id)
 
         self.assertEqual(response.status_code, 200)
         json_response = json.loads(response.content)
-        self.assertEqual(json_response[0]['first_name'], self.user.first_name)
-        self.assertEqual(json_response[0]['last_name'], self.user.last_name)
-        self.assertEqual(json_response[0]['email'], self.user.email)
-        self.assertEqual(json_response[0]['notary_values']['commission_date'], self.notary.commission_date)
-        self.assertEqual(json_response[0]['notary_values']['expiration_date'], self.notary.expiration_date)
-        self.assertEqual(json_response[0]['notary_values']['active'], self.notary.active)
-        self.assertEqual(json_response[0]['notary_values']['verified'], self.notary.verified)
-        self.assertEqual(json_response[0]['notary_values']['bio'], self.notary.bio)
+        self.assertEqual(json_response['first_name'], self.user.first_name)
+        self.assertEqual(json_response['last_name'], self.user.last_name)
+        self.assertEqual(json_response['email'], self.user.email)
+        self.assertEqual(json_response['notary_values']['commission_date'], self.notary.commission_date)
+        self.assertEqual(json_response['notary_values']['expiration_date'], self.notary.expiration_date)
+        self.assertEqual(json_response['notary_values']['active'], self.notary.active)
+        self.assertEqual(json_response['notary_values']['verified'], self.notary.verified)
+        self.assertEqual(json_response['notary_values']['bio'], self.notary.bio)
+
