@@ -1,4 +1,3 @@
-# from django.contrib.auth.models import User
 from .models import User, Notary
 from django.test import RequestFactory, TestCase
 from django.contrib.auth import get_user_model
