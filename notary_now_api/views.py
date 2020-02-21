@@ -48,7 +48,7 @@ def appointments(request, pk):
         if request.method == 'GET':
             appointments = Appointment.objects.filter(notary_id=notary.id)
 
-            return JsonResponse(list(appointments.values('notary_id', 'appointee_id', 'date', 'time', 'location')), safe=False)
+            return JsonResponse(list(appointments.values('id', 'notary_id', 'appointee_id', 'date', 'time', 'location')), safe=False)
         elif request.method == 'POST':
             appointment_info = json.loads(request.body)
             appointment = Appointment.objects.filter(
