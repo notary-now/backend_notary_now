@@ -1,10 +1,10 @@
-from .models import User, Notary
+from .models import User, Notary, Appointment
 from django.test import RequestFactory, TestCase
 from django.contrib.auth import get_user_model
 User = get_user_model()
 import json
 
-from .views import notary_users_list
+from .views import notary_users_list, notary_detail, appointments
 
 class AllNotaryTest(TestCase):
     def setUp(self):
