@@ -44,7 +44,7 @@ def appointments(request, pk):
     if notary:
         if request.method == 'GET':
             appointments = Appointment.objects.filter(notary_id=pk).order_by('id')
-            import code; code.interact(local=dict(globals(), **locals()))
+
             return JsonResponse(list(appointments.values('id', 'notary_id', 'appointee_id', 'date', 'time', 'location')), safe=False)
         elif request.method == 'POST':
             appointment_info = json.loads(request.body)
