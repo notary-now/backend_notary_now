@@ -119,3 +119,40 @@ Status: 200
   }
 }
 ```
+
+##### Appointments
+###### Get List of All Appointments
+`GET` to `/api/v1/notaries/:user_id/appointments`
+
+Successful response should look like:
+```
+[
+  {
+    "notary_id": 2,
+    "appointee_id": 1,
+    "date": "2020-02-28",
+    "time": "23:15:42",
+    "location": "Irving, TX, USA"
+  },
+  {
+    "notary_id": 2,
+    "appointee_id": 1,
+    "date": "2020-02-20",
+    "time": "23:15:42",
+    "location": "Irving, TX, USA"
+  }
+]
+```
+
+###### Make an Appointment
+`POST` to `/api/v1/notaries/:user_id/appointments`
+
+Request payload should look like:
+```
+{
+    "appointee_id": 2,
+    "time": "14:00:00",
+    "date": "2020-09-12",
+    "location": "123 Main St."
+}
+```
