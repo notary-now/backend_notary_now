@@ -172,3 +172,20 @@ Request payload should look like:
     "location": "123 Main St."
 }
 ```
+
+##### Notary Profile Verifications
+`GET` to `/api/v1/notaries/:id/verify`
+
+Successful response should look like:
+```
+{
+    "success": "Verified"
+}
+```
+
+Unsuccessful response should look like:
+```
+{
+    "error": "Unable to verify"
+}
+```
