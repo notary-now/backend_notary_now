@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from .models import User, Notary, Appointment
 from .helpers.format_notary import format_notary
+from .helpers.format_appointment import format_appointment
 import requests
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -45,7 +46,12 @@ def appointments(request, pk):
         if request.method == 'GET':
             appointments = Appointment.objects.filter(notary_id=pk).order_by('id')
 
-            return JsonResponse(list(appointments.values('id', 'notary_id', 'appointee_id', 'date', 'time', 'location')), safe=False)
+            appointment_data = []
+
+            for appointment in appointments:
+                appointment_data.append(format_appointment(appointment))
+
+            return JsonResponse(appointment_data, safe=False)
         elif request.method == 'POST':
             appointment_info = json.loads(request.body)
             appointment = Appointment.objects.filter(
