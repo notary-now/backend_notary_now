@@ -1,9 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from .utils import AppointmentStatuses
 
-
-# Create your models here.
 class MyUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password = None):
         if not email:
@@ -75,11 +74,21 @@ class Appointment(models.Model):
     location = models.CharField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    status = models.IntegerField(
+        choices=AppointmentStatuses.choices(),
+        default=AppointmentStatuses.PENDING,
+    )
+
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['date', 'time', 'notary_id'], name='unique_notary_appointment'),
-            models.UniqueConstraint(fields=['date', 'time', 'appointee_id'], name='unique_user_appointment')
+        models.UniqueConstraint(fields=['date', 'time', 'notary_id'], name='unique_notary_appointment'),
+        models.UniqueConstraint(fields=['date', 'time', 'appointee_id'], name='unique_user_appointment')
         ]
+
+    @property
+    def get_appointment_result(self):
+        return AppointmentStatuses(self.status).name.title()
 
     @property
     def related_notary(self):
