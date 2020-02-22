@@ -134,7 +134,8 @@ class AllAppointmentsTest(TestCase):
         self.assertEqual(json_response[0]['location'], self.appointment_one.location)
         self.assertEqual(json_response[0]['date'], self.appointment_one.date)
         self.assertEqual(json_response[0]['time'], self.appointment_one.time)
-        
+        self.assertEqual(json_response[0]['status'], self.appointment_one.get_appointment_result)
+
         self.assertEqual(json_response[1]['date'], self.appointment_two.date)
         self.assertEqual(json_response[1]['time'], self.appointment_two.time)
         self.assertEqual(json_response[1]['id'], self.appointment_two.id)
