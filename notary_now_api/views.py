@@ -7,8 +7,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 def notary_users_list(request):
-    notaries = Notary.objects.select_related('user')
-
+    notaries = Notary.objects.all().order_by('id')
     notary_data = []
 
     for notary in notaries:
@@ -19,18 +18,16 @@ def notary_users_list(request):
 def notary_detail(request, pk):
     notary = Notary.objects.filter(user_id=pk)
     if notary:
-        notary = notary.select_related('user')[0]
-
-        return JsonResponse(format_notary(notary))
+        return JsonResponse(format_notary(notary[0]))
     else:
         return JsonResponse({'error': 'Notary not Found'}, status=404)
 
 def notary_verify(request, pk):
-    notary = Notary.objects.filter(user_id=pk)[0]
+    notary = Notary.objects.filter(user_id=pk)
     if notary:
-        notary_id = notary.state_notary_number
-        commission_date = notary.commission_date
-        expiration_date = notary.expiration_date
+        notary_id = notary[0].state_notary_number
+        commission_date = notary[0].commission_date
+        expiration_date = notary[0].expiration_date
 
         response = requests.get(f'https://data.colorado.gov/resource/k4uv-yvnk.json?notaryid={notary_id}&commissionstart={commission_date}&commissionexpire={expiration_date}').json()
         if response:
@@ -43,10 +40,10 @@ def notary_verify(request, pk):
 
 @csrf_exempt
 def appointments(request, pk):
-    notary = Notary.objects.filter(user_id=pk)[0]
+    notary = Notary.objects.filter(user_id=pk)
     if notary:
         if request.method == 'GET':
-            appointments = Appointment.objects.filter(notary_id=notary.id)
+            appointments = Appointment.objects.filter(notary_id=pk).order_by('id')
 
             return JsonResponse(list(appointments.values('id', 'notary_id', 'appointee_id', 'date', 'time', 'location')), safe=False)
         elif request.method == 'POST':

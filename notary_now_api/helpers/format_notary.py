@@ -1,11 +1,11 @@
 def format_notary(notary):
     return {
-        "id": notary.user.id,
-        "first_name": notary.user.first_name,
-        "last_name": notary.user.last_name,
-        "email": notary.user.email,
-        "profile_photo": notary.user.profile_photo,
-        "zip_code": notary.user.zip_code,
+        "id": notary.related_user.id,
+        "first_name": notary.related_user.first_name,
+        "last_name": notary.related_user.last_name,
+        "email": notary.related_user.email,
+        "profile_photo": notary.related_user.profile_photo,
+        "zip_code": notary.related_user.zip_code,
         "notary_values": {
             "commission_date": notary.commission_date,
             "expiration_date": notary.expiration_date,

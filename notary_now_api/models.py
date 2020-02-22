@@ -81,6 +81,14 @@ class Appointment(models.Model):
             models.UniqueConstraint(fields=['date', 'time', 'appointee_id'], name='unique_user_appointment')
         ]
 
+    @property
+    def related_notary(self):
+        return self.notary
+
+    @property
+    def related_appointee(self):
+        return self.appointee
+
 class Notary(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notary_user')
     radius = models.PositiveIntegerField()
@@ -92,3 +100,7 @@ class Notary(models.Model):
     expiration_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def related_user(self):
+        return self.user
