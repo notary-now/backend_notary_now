@@ -128,17 +128,33 @@ Successful response should look like:
 ```
 [
   {
-    "notary_id": 2,
-    "appointee_id": 1,
-    "date": "2020-02-28",
+    "id": 1,
+    "notary": {
+      "name": "William Warrick",
+      "id": 2
+    },
+    "appointee": {
+      "name": "Nancy Noteralli",
+      "id": 1
+    },
+    "status": "Pending",
     "time": "23:15:42",
+    "date": "2020-02-20",
     "location": "Irving, TX, USA"
   },
   {
-    "notary_id": 2,
-    "appointee_id": 1,
-    "date": "2020-02-20",
+    "id": 2,
+    "notary": {
+      "name": "William Warrick",
+      "id": 2
+    },
+    "appointee": {
+      "name": "Nancy Noteralli",
+      "id": 1
+    },
+    "status": "Pending",
     "time": "23:15:42",
+    "date": "2020-02-28",
     "location": "Irving, TX, USA"
   }
 ]
