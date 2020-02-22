@@ -7,7 +7,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 def notary_users_list(request):
-    notaries = Notary.objects.all().order_by('id')
+    notaries = Notary.objects.filter(active='True').order_by('id')
     notary_data = []
 
     for notary in notaries:
