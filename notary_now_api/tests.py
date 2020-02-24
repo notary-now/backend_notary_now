@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 import json
 
-from .views import notary_users_list, notary_detail, appointments
+from .views import notary_users_list, notary_detail, appointments, appointment_detail
 
 class AllNotaryTest(TestCase):
     def setUp(self):
@@ -144,3 +144,58 @@ class AllAppointmentsTest(TestCase):
         self.assertEqual(json_response[1]['notary']['id'], self.user.id)
         self.assertEqual(json_response[1]['appointee']['id'], self.appointee.id)
         self.assertEqual(json_response[1]['location'], self.appointment_two.location)
+
+
+class GetAppointmentTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            first_name='David', last_name='Smith', email='jacob@turing.edu')
+        self.appointee = User.objects.create_user(
+            first_name='Karen', last_name='Smith', email='karen@turing.edu')
+        self.notary = Notary.objects.create(
+            state_notary_number='12345678',
+            commission_date='2020-02-10',
+            expiration_date='2022-02-10',
+            radius=7,
+            user_id=self.user.id
+        )
+        self.appointment_one = Appointment.objects.create(
+            notary_id=self.user.id,
+            appointee_id=self.appointee.id,
+            date='2020-02-28',
+            time='23:15:42',
+            location='Irving, TX, USA'
+        )
+        self.appointment_two = Appointment.objects.create(
+            notary_id=self.user.id,
+            appointee_id=self.appointee.id,
+            date='2020-03-04',
+            time='23:16:42',
+            location='Irving, TX, USA'
+        )
+
+    def test_appointment_endpoint(self):
+        request = self.factory.get(f'/api/v1/notaries/{self.user.id}/appointments/{self.appointment_one.id}')
+
+        response = appointment_detail(request, self.user.id, self.appointment_one.id)
+        self.assertEqual(response.status_code, 200)
+        json_response = json.loads(response.content)
+
+        self.assertEqual(json_response['notary']['id'], self.user.id)
+        self.assertEqual(json_response['notary']['name'], self.user.first_name + " " + self.user.last_name)
+        self.assertEqual(json_response['id'], self.appointment_one.id)
+        self.assertEqual(json_response['appointee']['id'], self.appointee.id)
+        self.assertEqual(json_response['appointee']['name'], self.appointee.first_name + " " + self.appointee.last_name)
+        self.assertEqual(json_response['location'], self.appointment_one.location)
+        self.assertEqual(json_response['date'], self.appointment_one.date)
+        self.assertEqual(json_response['time'], self.appointment_one.time)
+        self.assertEqual(json_response['status'], self.appointment_one.get_appointment_result)
+
+        self.assertNotEqual(json_response['id'], self.appointment_two.id)
+        self.assertNotEqual(json_response['time'], self.appointment_two.time)
+
+    def test_appointment_endpoint_sad_path(self):
+        request = self.factory.get(f'/api/v1/notaries/20/appointments/{self.appointment_one.id}')
+        response = appointment_detail(request, 20, self.appointment_one.id)
+        self.assertEqual(response.status_code, 400)

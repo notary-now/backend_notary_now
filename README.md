@@ -15,21 +15,16 @@ NotaryNow connects notaries with people who need notary service.
 1. Add Environment Variables
 
 #### Required Python Packages
-- dotenv `pip3 install python-dotenv`
-- psycop2 `pip3 install django psycop2`
-- pytest `pip3 install -U pytest`
-- whitenoise `pip3 install whitenoise`
-- gunicorn `pip3 install gunicorn`
-- django_heroku `pip3 install django-heroku`
+Install required Python Packages using the command: `pip install -r requirements.txt `
 
-### Setup Database
+#### Setup Database
 ```
 psql
 CREATE DATABASE backend_notary_now_dev;
 \q
 ```
 
-### Environment Variables
+#### Environment Variables
 ```
 SECRET=<SECRET>
 DBNAME=<DBNAME>
@@ -126,6 +121,8 @@ Status: 200
 
 Successful response should look like:
 ```
+Status: 200
+
 [
   {
     "id": 1,
@@ -160,6 +157,30 @@ Successful response should look like:
 ]
 ```
 
+###### Get An Appointment By Id
+`GET` to `/api/v1/notaries/:user_id/appointments/:appointment_id`
+
+Successful response should look like:
+```
+Status: 200
+
+{
+   "id": 1,
+   "notary": {
+     "name": "William Warrick",
+     "id": 2
+   },
+   "appointee": {
+     "name": "Nancy Noteralli",
+     "id": 1
+   },
+   "status": "Pending",
+   "time": "23:15:42",
+   "date": "2020-02-20",
+   "location": "Irving, TX, USA"
+ }
+```
+
 ###### Make an Appointment
 `POST` to `/api/v1/notaries/:user_id/appointments`
 
@@ -187,5 +208,15 @@ Unsuccessful response should look like:
 ```
 {
     "error": "Unable to verify"
+}
+```
+
+##### Unsuccessful Responses
+###### Appointments
+```
+Status: 400 / 500
+
+{
+    "error": "Notary Appointment Relation Not Found"
 }
 ```

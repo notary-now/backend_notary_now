@@ -73,4 +73,11 @@ def appointments(request, pk):
             else:
                 return JsonResponse({'error': 'Not Unique'}, status=400)
     else:
-        return JsonResponse({'error': 'Notary not Found'}, status=404)
+        return JsonResponse({'error': 'Notary Not Found'}, status=404)
+
+def appointment_detail(request, notary_id, appointment_id):
+    appointment = Appointment.objects.filter(notary_id=notary_id, id=appointment_id)
+    if appointment:
+        return JsonResponse(format_appointment(appointment[0]), status=200, safe=False)
+    else:
+        return JsonResponse({'error': 'Notary Appointment Relation Not Found'}, status=400)
