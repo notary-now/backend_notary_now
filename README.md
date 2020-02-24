@@ -115,6 +115,52 @@ Status: 200
 }
 ```
 
+###### Edit Notary Profile by Id
+`PUT` to `/api/v1/notaries/:id`
+
+Example request payload:
+```
+{
+  "id": 1,
+  "user_values": {
+    "first_name": "Mark",
+    "last_name": "James",
+    "email": "mark@james.com",
+    "zip_code": 12345
+  },
+  "notary_values": {
+    "state_notary_number": "9128375633",
+    "radius": 7,
+    "active": true,
+    "bio": "New Bio!",
+    "commission_date": "2020-03-23",
+    "expiration_date": "2023-03-23"
+  }
+}
+```
+
+Example response:
+```
+Status: 200
+
+{
+  "id": 1,
+  "first_name": "Mark",
+  "last_name": "James",
+  "email": "mark@james.com",
+  "profile_photo": "https://ca.slack-edge.com/T029P2S9M-UKFR53NRH-ce9206fa99d8-512",
+  "zip_code": 12345,
+  "notary_values": {
+    "commission_date": "2020-03-23",
+    "expiration_date": "2023-03-23",
+    "verified": true,
+    "active": true,
+    "radius": 7,
+    "bio": "New Bio!"
+  }
+}
+```
+
 ##### Appointments
 ###### Get List of All Appointments
 `GET` to `/api/v1/notaries/:notary_user_id/appointments`
