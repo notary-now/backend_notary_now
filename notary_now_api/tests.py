@@ -109,7 +109,7 @@ class AllAppointmentsTest(TestCase):
         self.appointment_one = Appointment.objects.create(
             notary_id=self.user.id,
             appointee_id=self.appointee.id,
-            date='2020-02-28',
+            date='2020-04-28',
             time='23:15:42',
             location='Irving, TX, USA'
         )
@@ -117,8 +117,24 @@ class AllAppointmentsTest(TestCase):
             notary_id=self.user.id,
             appointee_id=self.appointee.id,
             date='2020-03-04',
-            time='23:15:42',
+            time='22:15:42',
             location='Irving, TX, USA'
+        )
+        self.appointment_three = Appointment.objects.create(
+            notary_id=self.user.id,
+            appointee_id=self.appointee.id,
+            date='2020-02-27',
+            time='23:15:42',
+            location='Irving, TX, USA',
+            status=2
+        )
+        self.appointment_four = Appointment.objects.create(
+            notary_id=self.user.id,
+            appointee_id=self.appointee.id,
+            date='2020-04-04',
+            time='23:15:42',
+            location='Irving, TX, USA',
+            status=3
         )
 
     def test_appointments_endpoint(self):
@@ -130,20 +146,22 @@ class AllAppointmentsTest(TestCase):
 
         self.assertEqual(json_response[0]['notary']['id'], self.user.id)
         self.assertEqual(json_response[0]['notary']['name'], self.user.first_name + " " + self.user.last_name)
-        self.assertEqual(json_response[0]['id'], self.appointment_one.id)
+        self.assertEqual(json_response[0]['id'], self.appointment_two.id)
         self.assertEqual(json_response[0]['appointee']['id'], self.appointee.id)
         self.assertEqual(json_response[0]['appointee']['name'], self.appointee.first_name + " " + self.appointee.last_name)
-        self.assertEqual(json_response[0]['location'], self.appointment_one.location)
-        self.assertEqual(json_response[0]['date'], self.appointment_one.date)
-        self.assertEqual(json_response[0]['time'], self.appointment_one.time)
-        self.assertEqual(json_response[0]['status'], self.appointment_one.get_appointment_result)
+        self.assertEqual(json_response[0]['location'], self.appointment_two.location)
+        self.assertEqual(json_response[0]['date'], self.appointment_two.date)
+        self.assertEqual(json_response[0]['time'], self.appointment_two.time)
+        self.assertEqual(json_response[0]['status'], self.appointment_two.get_appointment_result)
 
-        self.assertEqual(json_response[1]['date'], self.appointment_two.date)
-        self.assertEqual(json_response[1]['time'], self.appointment_two.time)
-        self.assertEqual(json_response[1]['id'], self.appointment_two.id)
+        self.assertEqual(json_response[1]['date'], self.appointment_one.date)
+        self.assertEqual(json_response[1]['time'], self.appointment_one.time)
+        self.assertEqual(json_response[1]['id'], self.appointment_one.id)
         self.assertEqual(json_response[1]['notary']['id'], self.user.id)
         self.assertEqual(json_response[1]['appointee']['id'], self.appointee.id)
-        self.assertEqual(json_response[1]['location'], self.appointment_two.location)
+        self.assertEqual(json_response[1]['location'], self.appointment_one.location)
+        self.assertEqual(json_response[2]['id'], self.appointment_three.id)
+        self.assertEqual(json_response[3]['id'], self.appointment_four.id)
 
 
 class GetAppointmentTest(TestCase):
