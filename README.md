@@ -149,7 +149,7 @@ Status: 200
       "name": "Nancy Noteralli",
       "id": 1
     },
-    "status": "Pending",
+    "status": "Completed",
     "time": "23:15:42",
     "date": "2020-02-28",
     "location": "Irving, TX, USA"
