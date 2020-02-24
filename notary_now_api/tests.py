@@ -62,6 +62,54 @@ class OneNotaryTest(TestCase):
         self.assertEqual(json_response['notary_values']['verified'], self.notary.verified)
         self.assertEqual(json_response['notary_values']['bio'], self.notary.bio)
 
+class EditNotaryTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            first_name='David', last_name='Smith', email='jacob@turing.edu')
+        self.notary = Notary.objects.create(
+            state_notary_number='12345678',
+            commission_date='2020-02-10',
+            expiration_date='2022-02-10',
+            radius=7,
+            user_id=self.user.id
+        )
+
+    def test_edit_a_notary_endpoint(self):
+        request = self.factory.put(f'/api/v1/notaries/{self.user.id}',
+        data=json.dumps(
+            {
+              "id": self.user.id,
+              "user_values": {
+                "first_name": "Mark",
+                "last_name": "James",
+                "email": "mark@james.com",
+                "zip_code": 12345
+              },
+              "notary_values": {
+                "state_notary_number": "9128375633",
+                "radius": 7,
+                "active": True,
+                "bio": "New Bio!",
+                "commission_date": "2020-03-23",
+                "expiration_date": "2023-03-23"
+              }
+            }),
+         content_type='application/json')
+
+        response = notary_detail(request, self.user.id)
+
+        self.assertEqual(response.status_code, 200)
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response['first_name'], "Mark")
+        self.assertEqual(json_response['last_name'], "James")
+        self.assertEqual(json_response['email'], "mark@james.com")
+        self.assertEqual(json_response['notary_values']['commission_date'], "2020-03-23")
+        self.assertEqual(json_response['notary_values']['expiration_date'], "2023-03-23")
+        self.assertEqual(json_response['notary_values']['active'], True)
+        self.assertEqual(json_response['notary_values']['verified'], self.notary.verified)
+        self.assertEqual(json_response['notary_values']['bio'], "New Bio!")
+
 class MakeAppointmentTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()

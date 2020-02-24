@@ -17,12 +17,23 @@ def notary_users_list(request):
 
     return JsonResponse(notary_data, safe=False)
 
+@csrf_exempt
 def notary_detail(request, pk):
     notary = Notary.objects.filter(user_id=pk)
+    user = User.objects.filter(id=pk)
     if notary:
-        return JsonResponse(format_notary(notary[0]))
+        if request.method == 'GET':
+            return JsonResponse(format_notary(notary[0]))
+        elif request.method == 'PUT':
+            notary_info = json.loads(request.body)
+            try:
+                notary.update(**notary_info['notary_values'])
+                user.update(**notary_info['user_values'])
+                return JsonResponse(format_notary(notary[0]))
+            except:
+                return JsonResponse({"error": "Unknown Fields Provided"}, status=400)
     else:
-        return JsonResponse({'error': 'Notary not Found'}, status=404)
+        return JsonResponse({'error': 'Notary Not Found'}, status=404)
 
 def notary_verify(request, pk):
     notary = Notary.objects.filter(user_id=pk)
