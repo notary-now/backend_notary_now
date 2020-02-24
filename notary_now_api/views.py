@@ -45,7 +45,7 @@ def appointments(request, pk):
     notary = Notary.objects.filter(user_id=pk)
     if notary:
         if request.method == 'GET':
-            appointments = Appointment.objects.filter(notary_id=pk).order_by('id')
+            appointments = Appointment.objects.filter(notary_id=pk).order_by('status', 'date', 'time')
 
             appointment_data = []
 
