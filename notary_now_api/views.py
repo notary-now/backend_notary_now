@@ -77,8 +77,8 @@ def appointments(request, pk):
         return JsonResponse({'error': 'Notary Not Found'}, status=404)
 
 @csrf_exempt
-def appointment_detail(request, notary_id, appointment_id):
-    appointment = Appointment.objects.filter(notary_id=notary_id, id=appointment_id)
+def appointment_detail(request, notary_user_id, appointment_id):
+    appointment = Appointment.objects.filter(notary_id=notary_user_id, id=appointment_id)
     if appointment:
         if request.method == 'GET':
             return JsonResponse(format_appointment(appointment[0]), status=200, safe=False)
