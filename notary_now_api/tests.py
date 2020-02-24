@@ -199,3 +199,85 @@ class GetAppointmentTest(TestCase):
         request = self.factory.get(f'/api/v1/notaries/20/appointments/{self.appointment_one.id}')
         response = appointment_detail(request, 20, self.appointment_one.id)
         self.assertEqual(response.status_code, 400)
+
+class ChangeAppointmentStatusTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            first_name='David', last_name='Smith', email='jacob@turing.edu')
+        self.appointee = User.objects.create_user(
+            first_name='Karen', last_name='Smith', email='karen@turing.edu')
+        self.notary = Notary.objects.create(
+            state_notary_number='12345678',
+            commission_date='2020-02-10',
+            expiration_date='2022-02-10',
+            radius=7,
+            user_id=self.user.id
+        )
+        self.appointment_one = Appointment.objects.create(
+            notary_id=self.user.id,
+            appointee_id=self.appointee.id,
+            date='2020-02-28',
+            time='23:15:42',
+            location='Irving, TX, USA'
+        )
+
+    def test_appointment_status_endpoint(self):
+        request = self.factory.patch(f'/api/v1/notaries/{self.user.id}/appointments/{self.appointment_one.id}/',
+        data=json.dumps({
+            "status": "COMPLETED"
+         }),
+         content_type='application/json')
+
+        response = appointment_detail(request, self.user.id, self.appointment_one.id)
+        json_response = json.loads(response.content)
+        self.assertEqual(response.status_code, 200)
+
+
+        self.assertEqual(json_response['notary']['id'], self.user.id)
+        self.assertEqual(json_response['notary']['name'], self.user.first_name + " " + self.user.last_name)
+        self.assertEqual(json_response['id'], self.appointment_one.id)
+        self.assertEqual(json_response['appointee']['id'], self.appointee.id)
+        self.assertEqual(json_response['appointee']['name'], self.appointee.first_name + " " + self.appointee.last_name)
+        self.assertEqual(json_response['location'], self.appointment_one.location)
+        self.assertEqual(json_response['date'], self.appointment_one.date)
+        self.assertEqual(json_response['time'], self.appointment_one.time)
+        self.assertEqual(json_response['status'], 'Completed')
+
+        request = self.factory.patch(f'/api/v1/notaries/{self.user.id}/appointments/{self.appointment_one.id}/',
+        data=json.dumps({
+            "status": "CANCELLED"
+         }),
+         content_type='application/json')
+
+        response = appointment_detail(request, self.user.id, self.appointment_one.id)
+        json_response = json.loads(response.content)
+
+        self.assertEqual(json_response['status'], 'Cancelled')
+
+    def test_appointment_status_endpoint_sadpath(self):
+        request = self.factory.patch(f'/api/v1/notaries/{self.user.id}/appointments/{self.appointment_one.id}/',
+        data=json.dumps({
+            "status": ""
+         }),
+         content_type='application/json')
+
+        response = appointment_detail(request, self.user.id, self.appointment_one.id)
+        json_response = json.loads(response.content)
+        self.assertEqual(response.status_code, 400)
+
+
+        self.assertEqual(json_response['error'], 'No Status Provided')
+
+        request = self.factory.patch(f'/api/v1/notaries/{self.user.id}/appointments/{self.appointment_one.id}/',
+        data=json.dumps({
+            "status": "asdfasdf"
+         }),
+         content_type='application/json')
+
+        response = appointment_detail(request, self.user.id, self.appointment_one.id)
+        json_response = json.loads(response.content)
+        self.assertEqual(response.status_code, 400)
+
+
+        self.assertEqual(json_response['error'], 'Status Does Not Match')

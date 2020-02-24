@@ -117,7 +117,7 @@ Status: 200
 
 ##### Appointments
 ###### Get List of All Appointments
-`GET` to `/api/v1/notaries/:user_id/appointments`
+`GET` to `/api/v1/notaries/:notary_user_id/appointments`
 
 Successful response should look like:
 ```
@@ -158,7 +158,7 @@ Status: 200
 ```
 
 ###### Get An Appointment By Id
-`GET` to `/api/v1/notaries/:user_id/appointments/:appointment_id`
+`GET` to `/api/v1/notaries/:notary_user_id/appointments/:appointment_id`
 
 Successful response should look like:
 ```
@@ -182,7 +182,7 @@ Status: 200
 ```
 
 ###### Make an Appointment
-`POST` to `/api/v1/notaries/:user_id/appointments`
+`POST` to `/api/v1/notaries/:notary_user_id/appointments`
 
 Request payload should look like:
 ```
@@ -191,6 +191,16 @@ Request payload should look like:
     "time": "14:00:00",
     "date": "2020-09-12",
     "location": "123 Main St."
+}
+```
+
+###### Update an Appointment Status
+`PATCH` to `/api/v1/notaries/:notary_user_id/appointments/:appointment_id`
+
+Request payload should look like:
+```
+{
+    "status": "COMPLETED"
 }
 ```
 

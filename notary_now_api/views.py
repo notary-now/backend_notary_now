@@ -6,6 +6,7 @@ from .helpers.format_appointment import format_appointment
 import requests
 import json
 from django.views.decorators.csrf import csrf_exempt
+from .utils import AppointmentStatuses
 
 def notary_users_list(request):
     notaries = Notary.objects.filter(active='True').order_by('id')
@@ -75,9 +76,21 @@ def appointments(request, pk):
     else:
         return JsonResponse({'error': 'Notary Not Found'}, status=404)
 
-def appointment_detail(request, notary_id, appointment_id):
-    appointment = Appointment.objects.filter(notary_id=notary_id, id=appointment_id)
+@csrf_exempt
+def appointment_detail(request, notary_user_id, appointment_id):
+    appointment = Appointment.objects.filter(notary_id=notary_user_id, id=appointment_id)
     if appointment:
-        return JsonResponse(format_appointment(appointment[0]), status=200, safe=False)
+        if request.method == 'GET':
+            return JsonResponse(format_appointment(appointment[0]), status=200, safe=False)
+        elif request.method == 'PATCH':
+            appointment_info = json.loads(request.body)
+            if appointment_info['status']:
+                try:
+                    updated_appointment = appointment.update(status=getattr(AppointmentStatuses, appointment_info['status'].upper()).value)
+                    return JsonResponse(format_appointment(appointment[0]), status=200, safe=False)
+                except:
+                    return JsonResponse({'error': 'Status Does Not Match'}, status=400, safe=False)
+            else:
+                return JsonResponse({'error': 'No Status Provided'}, status=400)
     else:
         return JsonResponse({'error': 'Notary Appointment Relation Not Found'}, status=400)
