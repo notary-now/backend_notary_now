@@ -7,6 +7,7 @@ import requests
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .utils import AppointmentStatuses
+from django.contrib.auth import authenticate
 
 def notary_users_list(request):
     notaries = Notary.objects.filter(active='True').order_by('id')
@@ -105,3 +106,32 @@ def appointment_detail(request, notary_user_id, appointment_id):
                 return JsonResponse({'error': 'No Status Provided'}, status=400)
     else:
         return JsonResponse({'error': 'Notary Appointment Relation Not Found'}, status=400)
+
+@csrf_exempt
+def notary_users_login(request):
+    notary_info = json.loads(request.body)
+    user = authenticate(email=notary_info['email'], password=notary_info['password'])
+    if user:
+        notary = Notary.objects.filter(user_id=user.id)
+        if notary:
+            return JsonResponse(format_notary(notary[0]))
+        else:
+            return JsonResponse({'error': 'Notary Not Found'}, status=404)
+    else:
+        return JsonResponse({'error': 'User Not Found'}, status=404)
+
+@csrf_exempt
+def users_login(request):
+    user_info = json.loads(request.body)
+    user = authenticate(email=user_info['email'], password=user_info['password'])
+    if user:
+        return JsonResponse({
+            "id": user.id,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "zip_code": user.zip_code,
+            "profile_photo": user.profile_photo,
+        }, status=200)
+    else:
+        return JsonResponse({'error': 'User Not Found'}, status=404)
