@@ -62,6 +62,7 @@ Status: 200
     "profile_photo": "https://ca.slack-edge.com/T029P2S9M-UKFR53NRH-ce9206fa99d8-512",
     "zip_code": 80222,
     "notary_values": {
+      "state_notary_number": "9128375620",
       "commission_date": "2020-02-19",
       "expiration_date": "2022-02-19",
       "verified": true,
@@ -78,6 +79,7 @@ Status: 200
     "profile_photo": "https://ca.slack-edge.com/T029P2S9M-UKFA99FBQ-de342b31c1f0-512",
     "zip_code": 90210,
     "notary_values": {
+      "state_notary_number": "9128375633",
       "commission_date": "2020-02-19",
       "expiration_date": "2022-02-19",
       "verified": false,
@@ -105,6 +107,7 @@ Status: 200
   "profile_photo": "https://ca.slack-edge.com/T029P2S9M-UKFR53NRH-ce9206fa99d8-512",
   "zip_code": 80222,
   "notary_values": {
+    "state_notary_number": "9128375633",
     "commission_date": "2020-02-19",
     "expiration_date": "2022-02-19",
     "verified": true,
