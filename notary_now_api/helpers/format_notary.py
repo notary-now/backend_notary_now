@@ -7,6 +7,7 @@ def format_notary(notary):
         "profile_photo": notary.related_user.profile_photo,
         "zip_code": notary.related_user.zip_code,
         "notary_values": {
+            "state_notary_number": notary.state_notary_number,
             "commission_date": notary.commission_date,
             "expiration_date": notary.expiration_date,
             "verified": notary.verified,
