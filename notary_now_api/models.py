@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from .utils import AppointmentStatuses
+from uuid import uuid4
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password = None):
@@ -41,6 +42,7 @@ class MyUserManager(BaseUserManager):
 class User(AbstractBaseUser):
     date_joined = models.DateTimeField(verbose_name = 'date joined', auto_now_add = True)
     last_login = models.DateTimeField(verbose_name = 'last login', auto_now = True)
+    username = models.CharField(max_length = 50, default=uuid4().hex)
     is_admin = models.BooleanField(default = False)
     is_active = models.BooleanField(default = True)
     is_staff = models.BooleanField(default = False)
