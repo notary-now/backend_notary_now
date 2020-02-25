@@ -276,3 +276,6 @@ Status: 400 / 500
     "error": "Notary Appointment Relation Not Found"
 }
 ```
+
+##### Database Schema
+![NotaryNow DB Schema](https://user-images.githubusercontent.com/38663414/75284889-85278400-580d-11ea-8d5d-add01365f9ff.png)
