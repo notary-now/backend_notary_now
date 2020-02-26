@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render
+from django.http import JsonResponse
 from .models import User, Notary, Appointment
 from .helpers.format_notary import format_notary
 from .helpers.format_appointment import format_appointment
