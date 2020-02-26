@@ -3,6 +3,18 @@
 
 ## Backend Service
 
+### Jump To
+- [About](#about)
+- [Setup](#setup)
+- [Required Python Packages](#required-python-packages)
+- [Setup Database](#setup-database)
+- [Environment Variables](#environment-variables)
+- [Testing](#testing)
+- [Running Tests](#running-tests)
+- [Endpoints](#endpoints)
+- [Database Schema](#database-schema)
+
+
 ### About
 
 NotaryNow connects notaries with people who need notary service.
@@ -43,14 +55,13 @@ Testing is done with `test`.
 
 All tests can be run using the command `python manage.py test notary_now_api`
 
-### Endpoints / How to Use
+### Endpoints
 
 #### Notary Users
-
 ###### Get List Of All Notaries
-`GET` to `/api/v1/notaries`
+`GET` to `/api/v1/notaries/`
 
-Example Response:
+Example successful response:
 ```
 Status: 200
 
@@ -94,9 +105,9 @@ Status: 200
 
 ##### Notary Profile
 ###### Get Notary Profile by Id
-`GET` to `/api/v1/notaries/:id`
+`GET` to `/api/v1/notaries/:id/`
 
-Example response:
+Example successful response:
 ```
 Status: 200
 
@@ -120,7 +131,7 @@ Status: 200
 ```
 
 ###### Edit Notary Profile by Id
-`PUT` to `/api/v1/notaries/:id`
+`PUT` to `/api/v1/notaries/:id/`
 
 Example request payload:
 ```
@@ -143,7 +154,7 @@ Example request payload:
 }
 ```
 
-Example response:
+Example successful response:
 ```
 Status: 200
 
@@ -167,9 +178,9 @@ Status: 200
 
 ##### Appointments
 ###### Get List of All Appointments
-`GET` to `/api/v1/notaries/:notary_user_id/appointments`
+`GET` to `/api/v1/notaries/:notary_user_id/appointments/`
 
-Successful response should look like:
+Example successful response:
 ```
 Status: 200
 
@@ -210,7 +221,7 @@ Status: 200
 ###### Get An Appointment By Id
 `GET` to `/api/v1/notaries/:notary_user_id/appointments/:appointment_id`
 
-Successful response should look like:
+Example successful response:
 ```
 Status: 200
 
@@ -232,7 +243,7 @@ Status: 200
 ```
 
 ###### Make an Appointment
-`POST` to `/api/v1/notaries/:notary_user_id/appointments`
+`POST` to `/api/v1/notaries/:notary_user_id/appointments/`
 
 Request payload should look like:
 ```
@@ -255,31 +266,24 @@ Request payload should look like:
 ```
 
 ##### Notary Profile Verifications
-`GET` to `/api/v1/notaries/:id/verify`
+`GET` to `/api/v1/notaries/:id/verify/`
 
-Successful response should look like:
+Example successful response:
 ```
+Status: 200
+
 {
     "success": "Verified"
 }
 ```
 
-Unsuccessful response should look like:
-```
-{
-    "error": "Unable to verify"
-}
-```
-
 ##### Unsuccessful Responses
-###### Appointments
-```
-Status: 400 / 500
+All endpoints are equipped to handle client errors and will return the one of the following status codes with error messages:
 
-{
-    "error": "Notary Appointment Relation Not Found"
-}
-```
+|Status Code|Reason|
+|:-:|---|
+| 400  | Bad request sent  |
+| 404  | Resource not found in the database  |
 
 ##### Database Schema
 ![NotaryNow DB Schema](https://user-images.githubusercontent.com/38663414/75284889-85278400-580d-11ea-8d5d-add01365f9ff.png)
