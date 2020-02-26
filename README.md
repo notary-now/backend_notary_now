@@ -58,11 +58,10 @@ All tests can be run using the command `python manage.py test notary_now_api`
 ### Endpoints / How to Use
 
 #### Notary Users
-
 ###### Get List Of All Notaries
-`GET` to `/api/v1/notaries`
+`GET` to `/api/v1/notaries/`
 
-Example Response:
+Example successful response:
 ```
 Status: 200
 
@@ -106,9 +105,9 @@ Status: 200
 
 ##### Notary Profile
 ###### Get Notary Profile by Id
-`GET` to `/api/v1/notaries/:id`
+`GET` to `/api/v1/notaries/:id/`
 
-Example response:
+Example successful response:
 ```
 Status: 200
 
@@ -132,7 +131,7 @@ Status: 200
 ```
 
 ###### Edit Notary Profile by Id
-`PUT` to `/api/v1/notaries/:id`
+`PUT` to `/api/v1/notaries/:id/`
 
 Example request payload:
 ```
@@ -155,7 +154,7 @@ Example request payload:
 }
 ```
 
-Example response:
+Example successful response:
 ```
 Status: 200
 
@@ -179,9 +178,9 @@ Status: 200
 
 ##### Appointments
 ###### Get List of All Appointments
-`GET` to `/api/v1/notaries/:notary_user_id/appointments`
+`GET` to `/api/v1/notaries/:notary_user_id/appointments/`
 
-Successful response should look like:
+Example successful response:
 ```
 Status: 200
 
@@ -222,7 +221,7 @@ Status: 200
 ###### Get An Appointment By Id
 `GET` to `/api/v1/notaries/:notary_user_id/appointments/:appointment_id`
 
-Successful response should look like:
+Example successful response:
 ```
 Status: 200
 
@@ -244,7 +243,7 @@ Status: 200
 ```
 
 ###### Make an Appointment
-`POST` to `/api/v1/notaries/:notary_user_id/appointments`
+`POST` to `/api/v1/notaries/:notary_user_id/appointments/`
 
 Request payload should look like:
 ```
@@ -267,19 +266,14 @@ Request payload should look like:
 ```
 
 ##### Notary Profile Verifications
-`GET` to `/api/v1/notaries/:id/verify`
+`GET` to `/api/v1/notaries/:id/verify/`
 
-Successful response should look like:
+Example successful response:
 ```
+Status: 200
+
 {
     "success": "Verified"
-}
-```
-
-Unsuccessful response should look like:
-```
-{
-    "error": "Unable to verify"
 }
 ```
 
