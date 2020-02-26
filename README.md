@@ -1,4 +1,5 @@
 # NotaryNow
+[![Build Status](https://travis-ci.org/notary-now/backend_notary_now.svg?branch=master)](https://travis-ci.org/notary-now/backend_notary_now)
 
 ## Backend Service
 
