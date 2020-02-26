@@ -11,7 +11,7 @@
 - [Environment Variables](#environment-variables)
 - [Testing](#testing)
 - [Running Tests](#running-tests)
-- [Endpoints / How to Use](#endpoints-/-how-to-use)
+- [Endpoints](#endpoints)
 - [Database Schema](#database-schema)
 
 
@@ -55,7 +55,7 @@ Testing is done with `test`.
 
 All tests can be run using the command `python manage.py test notary_now_api`
 
-### Endpoints / How to Use
+### Endpoints
 
 #### Notary Users
 ###### Get List Of All Notaries
