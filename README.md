@@ -278,14 +278,12 @@ Status: 200
 ```
 
 ##### Unsuccessful Responses
-###### Appointments
-```
-Status: 400 / 500
+All endpoints are equipped to handle client errors and will return the one of the following status codes with error messages:
 
-{
-    "error": "Notary Appointment Relation Not Found"
-}
-```
+|Status Code|Reason|
+|:-:|---|
+| 400  | Bad request sent  |
+| 404  | Resource not found in the database  |
 
 ##### Database Schema
 ![NotaryNow DB Schema](https://user-images.githubusercontent.com/38663414/75284889-85278400-580d-11ea-8d5d-add01365f9ff.png)
